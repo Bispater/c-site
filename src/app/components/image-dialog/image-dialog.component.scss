@@ -1,0 +1,17 @@
+.full-screen-dialog .mat-dialog-container {
+  height: 100vh;
+  width: 100vw;  
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.mat-dialog-content {
+  overflow-y: auto;  
+  flex: 1 1 auto;  
+}
+
+.dialog-image {
+  width: 100%;
+  height: auto;
+}
