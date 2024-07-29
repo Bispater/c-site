@@ -1,18 +1,11 @@
-<!-- <div mat-dialog-content>
-  <div *ngFor="let image of data.images">
-    <img [src]="image" alt="Imagen" class="dialog-image">
-  </div>
+<div class="dialog-header">
+  <button mat-icon-button (click)="closeDialog()">
+    <mat-icon>close</mat-icon>
+  </button>
 </div>
-<div mat-dialog-actions>
-  <button mat-button mat-dialog-close>Cerrar</button>
-</div> -->
-
 
 <div mat-dialog-content class="dialog-content">
   <div *ngFor="let image of data.images">
     <img [src]="image" alt="Imagen" class="dialog-image">
   </div>
-</div>
-<div mat-dialog-actions>
-  <button mat-button mat-dialog-close>Cerrar</button>
 </div>
