@@ -1,0 +1,31 @@
+<div class="home-container">
+  <div class="image-overlay-container">
+    <img
+      src="https://viventel.cl/wp-content/uploads/2024/04/aca.gif"
+      alt="Your Image"
+      class="top-image"
+    />
+    <div class="overlay-content">
+      <img
+        src="https://viventel.cl/wp-content/uploads/2023/05/e.png"
+        alt="Logo"
+        class="logo"
+      />
+      <p class="overlay-text">Tu atención ahora es más exprés</p>
+    </div>
+  </div>
+  <div class="button-container">
+    <a href="https://wa.me/56932842677" target="_blank">
+      <button class="custom-button">Habla con un ejecutivo</button>
+    </a>
+    <a href="https://www.entel.cl/planes/autoplan/" target="_blank">
+      <button class="custom-button">Autoactivación de Chip</button>
+    </a>
+    <button class="custom-button" (click)="navigateToOffers()" [class.loading]="isLoading" [disabled]="isLoading">
+      <mat-spinner *ngIf="isLoading" diameter="24"></mat-spinner>
+      <div class="button-content">
+        <span *ngIf="!isLoading">Oferta Fibra</span>
+      </div>
+    </button>
+      </div>
+</div>
