@@ -4,6 +4,7 @@ import { MainService } from '../../services/main.service';
 import { Root } from '../../../utils/models';
 import { AngularMaterialModule } from '../../../utils/material.module';
 import { CommonModule } from '@angular/common';
+import { Subjects } from '../../subjects/subject';
 
 @Component({
   selector: 'app-home',
@@ -14,30 +15,25 @@ import { CommonModule } from '@angular/common';
 })
 export class HomeComponent {
 
-  isLoading = true;
-  homes: any[] = []; 
-
-
   constructor(
     private service : MainService,
-    private router: Router  
+    private router: Router,
+    private subjects : Subjects
     ) { }
 
   ngOnInit(): void {
     this.service.getMainData().subscribe(
       (data: Root) => {
         console.log(data.results[0].homes);
-        this.homes = data.results[0].homes;
-        this.isLoading = false; 
+        this.subjects.home$.next(data.results[0].homes);
       },
       (error) => {
         console.error('Error fetching data', error);
-        this.isLoading = false; 
       }
     );
   }
 
   navigateToOffers(): void {
-    this.router.navigate(['/offers'], { state: { homes: this.homes } });
+    this.router.navigate(['/offers']);
   }
 }

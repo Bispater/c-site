@@ -21,11 +21,14 @@
     <a href="https://www.entel.cl/planes/autoplan/" target="_blank">
       <button class="custom-button">Autoactivación de Chip</button>
     </a>
-    <button class="custom-button" (click)="navigateToOffers()" [class.loading]="isLoading" [disabled]="isLoading">
-      <mat-spinner *ngIf="isLoading" diameter="24"></mat-spinner>
+    <button
+      class="custom-button"
+      (click)="navigateToOffers()"
+    >
+      <!-- <mat-spinner diameter="24"></mat-spinner> -->
       <div class="button-content">
-        <span *ngIf="!isLoading">Oferta Fibra</span>
+        <span>Oferta Fibra</span>
       </div>
     </button>
-      </div>
+  </div>
 </div>

@@ -1,33 +1,45 @@
-  <div class="top-bar">
-    <button class="back-button" (click)="navigateToHome()">
-      <mat-icon>arrow_back</mat-icon>
-    </button>
-    <h1 class="title">Catálogo</h1>
-  </div>
+<div class="top-bar">
+  <button class="back-button" (click)="navigateToHome()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <h1 class="title">Catálogo</h1>
+</div>
 
-  <div class="offers-container">
-    <mat-card *ngFor="let home of filteredHomes" class="offer-card">
-      <mat-card-content>
-        <div class="card-images">
-          <div *ngFor="let type of home.home_type">
-            <mat-card class="home-type-card">
-              <img mat-card-image [src]="type.image" alt="{{ type.name }}" (click)="showImageDialog(type.home_detail)">
-            </mat-card>
-          </div>
+<div *ngIf="isLoading" class="spinner-container">
+  <mat-spinner></mat-spinner>
+</div>
+
+<div class="offers-container" *ngIf="!isLoading">
+  <mat-card *ngFor="let home of filteredHomes" class="offer-card">
+    <mat-card-content>
+      <div class="card-images">
+        <div *ngFor="let type of home.home_type">
+          <mat-card class="home-type-card">
+            <img
+              mat-card-image
+              [src]="type.image"
+              alt="{{ type.name }}"
+              (click)="showImageDialog(type.home_detail)"
+            />
+          </mat-card>
         </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
-  
-  <div class="bottom-bar">
-    <div class="buttons-container">
-      <button *ngFor="let offer of homes" class="bottom-button" (click)="filterOffers(offer.name_button)">
-        <mat-icon class="bottom-icon">tv</mat-icon>
-        <span class="bottom-button-text">{{ offer.name_button }}</span>
-      </button>
-    </div>
-  </div>
-  
-  <div style="width: 100%; height: 20px;">
-  </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
 
+<div class="bottom-bar">
+  <div class="buttons-container">
+    <button
+      *ngFor="let offer of homes"
+      class="bottom-button"
+      (click)="filterOffers(offer.name_button)"
+    >
+      <!-- <mat-icon class="bottom-icon">tv</mat-icon> -->
+      <img src="../../../assets/icon_duo_24.png" />
+      <span class="bottom-button-text">{{ offer.name_button }}</span>
+    </button>
+  </div>
+</div>
+
+<div style="width: 100%; height: 20px"></div>

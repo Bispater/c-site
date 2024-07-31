@@ -4,6 +4,8 @@ import { Router, RouterModule } from '@angular/router';
 import { AngularMaterialModule } from '../../../utils/material.module';
 import { MatDialog } from '@angular/material/dialog';
 import { ImageDialogComponent } from '../../components/image-dialog/image-dialog.component';
+import { Subjects } from '../../subjects/subject';
+import { Home } from '../../../utils/models';
 
 @Component({
   selector: 'app-offers-view',
@@ -14,28 +16,43 @@ import { ImageDialogComponent } from '../../components/image-dialog/image-dialog
 })
 export class OffersViewComponent implements OnInit {
 
-  homes: any[] = []; 
+  // homes: any; 
   offers: any[] = [];
+  homes: Home[] = [];
 
   filteredHomes: any[] = [];
   currentFilter: string = '';
+  isLoading: boolean = true;
 
 
   constructor(
     private location: Location,
     private dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private subjects : Subjects
     ) { }
 
   ngOnInit(): void {
 
-    const navigation = this.location.getState() as { homes: any[] };
-    if (navigation && navigation.homes) {
-      this.homes = navigation.homes;
-      console.log(this.homes);
-      this.processOffers();
-    }
+    this.subjects.home$.subscribe({
+      next: (data) => {
+        this.homes = data;
+        this.isLoading = false; 
+        this.processOffers();
+      },
+      error: (error) => {
+        console.error('Error receiving data', error);
+        this.isLoading = false; 
+      }
+    });
   }
+
+    // const navigation = this.location.getState() as { homes: any[] };
+    // if (navigation && navigation.homes) {
+    //   this.homes = navigation.homes;
+    //   console.log(this.homes);
+    //   this.processOffers();
+    // }
 
   filterOffers(filter: string): void {
     this.currentFilter = filter;
