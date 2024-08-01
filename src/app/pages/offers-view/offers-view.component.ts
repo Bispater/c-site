@@ -16,7 +16,6 @@ import { Home } from '../../../utils/models';
 })
 export class OffersViewComponent implements OnInit {
 
-  // homes: any; 
   offers: any[] = [];
   homes: Home[] = [];
 
@@ -24,6 +23,11 @@ export class OffersViewComponent implements OnInit {
   currentFilter: string = '';
   isLoading: boolean = true;
 
+  iconMap: { [key: string]: string } = {
+    'Dúo Pack': 'assets/icon_duo_24.png',
+    'Internet Fibra': 'assets/icon_fibra_24.png',
+    'Triple Pack Internet': 'assets/icon_tri_pack_24.png'
+  };
 
   constructor(
     private location: Location,
@@ -36,24 +40,33 @@ export class OffersViewComponent implements OnInit {
 
     this.subjects.home$.subscribe({
       next: (data) => {
-        this.homes = data;
-        this.isLoading = false; 
-        this.processOffers();
+        if(data.length > 0){
+          this.homes = data;
+          console.log("home data? ", data);
+          this.isLoading = false; 
+          this.processOffers();
+        }
       },
       error: (error) => {
         console.error('Error receiving data', error);
         this.isLoading = false; 
       }
     });
+
+    setTimeout(() => {
+      console.log("evaluating time : ", this.isLoading);
+
+      if (this.isLoading) {
+        console.log("sended")
+        this.router.navigate(['/']);
+      }
+    }, 5000); 
   }
 
-    // const navigation = this.location.getState() as { homes: any[] };
-    // if (navigation && navigation.homes) {
-    //   this.homes = navigation.homes;
-    //   console.log(this.homes);
-    //   this.processOffers();
-    // }
-
+  getIconSrc(name_button: string): string {
+    return this.iconMap[name_button] || 'assets/default_icon.png';
+  }
+  
   filterOffers(filter: string): void {
     this.currentFilter = filter;
     if (filter === '') {
@@ -62,7 +75,6 @@ export class OffersViewComponent implements OnInit {
       this.filteredHomes = this.homes.filter(home => home.name_button === filter);
     }
   }
-
 
   processOffers(): void {
     this.offers = this.homes.flatMap(home => home.home_type.flatMap((type: { home_detail: any; }) => type.home_detail));
@@ -78,8 +90,6 @@ export class OffersViewComponent implements OnInit {
     if (images.length > 0) {
       this.dialog.open(ImageDialogComponent, {
         data: { images: images },
-        width: '100vw',
-        height: '100vh',
       });
     } else {
       console.error('No images found with the specified orientation.');

@@ -5,4 +5,5 @@ import { OffersViewComponent } from './pages/offers-view/offers-view.component';
 export const routes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'offers', component: OffersViewComponent },
+    { path: '**', redirectTo: '/' }
 ];
