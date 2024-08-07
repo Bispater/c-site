@@ -10,8 +10,7 @@
 </div>
 
 <div class="offers-container" *ngIf="!isLoading">
-  <mat-card *ngFor="let home of filteredHomes" class="offer-card">
-    <mat-card-content>
+  <div *ngFor="let home of filteredHomes" class="offer-card">
       <div class="card-images">
         <div *ngFor="let type of home.home_type">
           <mat-card class="home-type-card">
@@ -24,8 +23,7 @@
           </mat-card>
         </div>
       </div>
-    </mat-card-content>
-  </mat-card>
+  </div>
 </div>
 
 <!-- <div class="bottom-bar">
