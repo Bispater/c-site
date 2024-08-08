@@ -17,30 +17,45 @@ import { ActivatedRoute } from '@angular/router';
 export class HomeComponent {
 
   constructor(
-    private service : MainService,
+    private service: MainService,
     private route: ActivatedRoute,
     private router: Router,
-    private subjects : Subjects
-    ) { }
+    private subjects: Subjects
+  ) { }
 
-    ngOnInit(): void {
-      let dataId = this.route.snapshot.paramMap.get('id') || localStorage.getItem('dataId');
-      console.log("data id from home ", dataId);
+  ngOnInit(): void {
+    if (typeof window !== 'undefined' && window.localStorage) {
+
+      const dataId = this.route.snapshot.paramMap.get('id');
       if (dataId) {
-        localStorage.setItem('dataId', dataId); 
-        this.service.getMainData(dataId).subscribe(
-          (data: Root) => {
-            console.log(data.results[0].homes);
-            this.subjects.home$.next(data.results[0].homes);
-          },
-          (error) => {
-            console.error('Error fetching data', error);
-          }
-        );
+        console.log('dataId from URL:', dataId); // Verifica que dataId tenga un valor
+        localStorage.setItem('dataId', String(dataId)); // Asegúrate de que dataId sea una cadena
+        this.fetchData(dataId);
       } else {
-        console.error('No data ID found');
+        const storedDataId = localStorage.getItem('dataId');
+        if (storedDataId) {
+          console.log('dataId from localStorage:', storedDataId);
+          this.fetchData(storedDataId);
+        } else {
+          console.error('No dataId found in URL or localStorage');
+          this.router.navigate(['/error']); // Redirige a una página de error si no hay dataId
+        }
       }
     }
+  }
+
+  fetchData(dataId: string): void {
+    this.service.getMainData(dataId).subscribe(
+      (data: Root) => {
+        console.log('Data fetched:', data);
+        this.subjects.home$.next(data.results[0].homes);
+      },
+      (error) => {
+        console.error('Error fetching data', error);
+      }
+    );
+  }
+
 
   navigateToOffers(): void {
     this.router.navigate(['/offers']);

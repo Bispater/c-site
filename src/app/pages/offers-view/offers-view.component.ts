@@ -60,7 +60,7 @@ export class OffersViewComponent implements OnInit {
         console.log("sended")
         this.router.navigate(['/']);
       }
-    }, 5000); 
+    }, 10000); 
   }
 
   getIconSrc(name_button: string): string {
@@ -76,9 +76,15 @@ export class OffersViewComponent implements OnInit {
     }
   }
 
+
   processOffers(): void {
-    this.offers = this.homes.flatMap(home => home.home_type.flatMap((type: { home_detail: any; }) => type.home_detail));
-    console.log(this.offers);
+    const allHomeTypes = this.homes.flatMap(home => home.home_type);
+    console.log("all homes types ", this.homes);
+    const sortedHomeTypes = allHomeTypes.sort((a, b) => a.code.localeCompare(b.code));
+    console.log("sorte home types ", this.homes);
+    this.offers = sortedHomeTypes.flatMap(type => type.home_detail);
+    console.log("offerss", this.offers);
+    
     this.filteredHomes = this.homes;
   }
 
