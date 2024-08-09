@@ -20,7 +20,8 @@ export class OffersViewComponent implements OnInit {
   homes: Home[] = [];
 
   filteredHomes: any[] = [];
-  currentFilter: string = '';
+  currentFilter: string | null = null;
+  allHomes: any[] = []; 
   isLoading: boolean = true;
 
   iconMap: { [key: string]: string } = {
@@ -43,7 +44,6 @@ export class OffersViewComponent implements OnInit {
         if(data.length > 0){
           this.homes = data;
           console.log("home data? ", data);
-          this.isLoading = false; 
           this.processOffers();
         }
       },
@@ -60,39 +60,42 @@ export class OffersViewComponent implements OnInit {
         console.log("sended")
         this.router.navigate(['/']);
       }
-    }, 10000); 
+    }, 5000); 
   }
 
   getIconSrc(name_button: string): string {
     return this.iconMap[name_button] || 'assets/default_icon.png';
   }
   
-  filterOffers(filter: string): void {
-    this.currentFilter = filter;
-    if (filter === '') {
-      this.filteredHomes = this.homes;
+  toggleFilter(filter: string): void {
+    if (this.currentFilter === filter) {
+      this.filteredHomes = this.allHomes;
+      this.currentFilter = null;
     } else {
-      this.filteredHomes = this.homes.filter(home => home.name_button === filter);
+      this.currentFilter = filter;
+      this.filteredHomes = this.allHomes;
+      this.filteredHomes = this.filteredHomes.filter(home => home.name.startsWith(filter));
     }
   }
 
-
-  processOffers(): void {
+  processOffers(): void { 
     const allHomeTypes = this.homes.flatMap(home => home.home_type);
-    console.log("all homes types ", this.homes);
+    console.log("all homes types? ", allHomeTypes);
     const sortedHomeTypes = allHomeTypes.sort((a, b) => a.code.localeCompare(b.code));
-    console.log("sorte home types ", this.homes);
+    console.log("all homes types ordered by code? ", sortedHomeTypes);
     this.offers = sortedHomeTypes.flatMap(type => type.home_detail);
-    console.log("offerss", this.offers);
-    
-    this.filteredHomes = this.homes;
+    this.filteredHomes = sortedHomeTypes;
+    this.allHomes = this.filteredHomes;
+    console.log("filtered homes? ", this.filteredHomes)
+    this.isLoading = false; 
   }
+  
 
   showImageDialog(homeType: any[]): void {
-    const images = homeType
+    let images = homeType
       .filter(element => element.image_orientation === 'V')
-      .map(element => element.image);
-    
+    const sortedArray = images.sort((a, b) => a.name.localeCompare(b.name));
+    images = sortedArray.map(item => item.image);
     if (images.length > 0) {
       this.dialog.open(ImageDialogComponent, {
         data: { images: images },

@@ -25,11 +25,13 @@ export class HomeComponent {
 
   ngOnInit(): void {
     if (typeof window !== 'undefined' && window.localStorage) {
-
-      const dataId = this.route.snapshot.paramMap.get('id');
+      let dataId = '53';
+      this.route.params.subscribe( params => {
+        dataId = params['id'];
+      })
       if (dataId) {
-        console.log('dataId from URL:', dataId); // Verifica que dataId tenga un valor
-        localStorage.setItem('dataId', String(dataId)); // Asegúrate de que dataId sea una cadena
+        console.log('dataId from URL:', dataId); 
+        localStorage.setItem('dataId', String(dataId)); 
         this.fetchData(dataId);
       } else {
         const storedDataId = localStorage.getItem('dataId');
@@ -38,7 +40,7 @@ export class HomeComponent {
           this.fetchData(storedDataId);
         } else {
           console.error('No dataId found in URL or localStorage');
-          this.router.navigate(['/error']); // Redirige a una página de error si no hay dataId
+          this.router.navigate(['/error']); 
         }
       }
     }

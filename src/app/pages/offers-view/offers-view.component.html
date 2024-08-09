@@ -1,4 +1,4 @@
-<div class="top-bar">
+<!-- <div class="top-bar">
   <button class="back-button" (click)="navigateToHome()">
     <mat-icon>arrow_back</mat-icon>
   </button>
@@ -26,19 +26,6 @@
   </div>
 </div>
 
-<!-- <div class="bottom-bar">
-  <div class="buttons-container">
-    <button
-      *ngFor="let offer of homes"
-      class="bottom-button"
-      (click)="filterOffers(offer.name_button)"
-    >
-      <img style="width: 20px" src="../../../assets/icon_duo_24.png" />
-      <span class="bottom-button-text">{{ offer.name_button }}</span>
-    </button>
-  </div>
-</div> -->
-
 <div class="bottom-bar">
   <div class="buttons-container">
     <button
@@ -55,5 +42,51 @@
   </div>
 </div>
 
+
+<div style="width: 100%; height: 20px"></div> -->
+
+
+<div class="top-bar">
+  <button class="back-button" (click)="navigateToHome()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <h1 class="title">Catálogo</h1>
+</div>
+
+<div *ngIf="isLoading" class="spinner-container">
+  <mat-spinner diameter="24"></mat-spinner>
+</div>
+
+<div class="offers-container" *ngIf="!isLoading">
+  <div *ngFor="let home of filteredHomes" class="offer-card">
+    <div class="card-images">
+        <mat-card class="home-type-card">
+          <img
+            mat-card-image
+            [src]="home.image"
+            alt="{{ home.name }}"
+            (click)="showImageDialog(home.home_detail)"
+          />
+        </mat-card>
+    </div>
+  </div>
+</div>
+
+<div class="bottom-bar">
+  <div class="buttons-container">
+    <button
+      *ngFor="let offer of homes"
+      class="bottom-button"
+      [class.selected]="currentFilter === offer.name_button"
+      (click)="toggleFilter(offer.name_button)"
+    >
+      <img
+        [src]="getIconSrc(offer.name_button)"
+        class="icon-button"
+      />
+      <span class="bottom-button-text">{{ offer.name_button }}</span>
+    </button>
+  </div>
+</div>
 
 <div style="width: 100%; height: 20px"></div>
