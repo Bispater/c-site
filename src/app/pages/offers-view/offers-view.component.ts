@@ -14,6 +14,8 @@ import { Home } from '../../../utils/models';
   templateUrl: './offers-view.component.html',
   styleUrl: './offers-view.component.scss'
 })
+
+
 export class OffersViewComponent implements OnInit {
 
   offers: any[] = [];
@@ -106,7 +108,7 @@ export class OffersViewComponent implements OnInit {
   }
 
   navigateToHome(): void {
-    this.router.navigate(['/']);
+    this.router.navigate(['/home']);
   }
   
 }

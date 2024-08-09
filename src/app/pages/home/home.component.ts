@@ -14,6 +14,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
+
 export class HomeComponent {
 
   constructor(
@@ -29,6 +30,7 @@ export class HomeComponent {
       this.route.params.subscribe( params => {
         dataId = params['id'];
       })
+      console.log("id params from url ", dataId);
       if (dataId) {
         console.log('dataId from URL:', dataId); 
         localStorage.setItem('dataId', String(dataId)); 
